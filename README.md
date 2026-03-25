@@ -1,135 +1,84 @@
-# Workshop 05 - Building a REST API with Express and MongoDB
+# WS06 - React (Built on REST API Week)
 
-## Starter Notes
+This repository continues from the previous REST API topic.  
+Goal: keep the backend stable and teach React step-by-step on top of that API.
 
-Before starting, prepare your repository workspace:
-- Remove unnecessary content/files from the repository.
-- Copy the full content of this `starter/` folder to the repository root.
-- Continue the exercise from the repository root after the copy.
+## Target Repository Structure
 
-## Exercise Context
-This exercise expands the previous exercises from this FullStack course. In this exercise, students will create a REST API to handle blog postings.
-The student tasks are embedded directly into these files as TODOs:
-- `server.js`
-- `models/Post.js` (Model.js task)
-- `routes/pages.js`
-- `routes/posts.js`
-
-## server.js Task (`connectToDatabase`)
-In `server.js`, complete the `connectToDatabase` function so the app connects to MongoDB before starting the server.
-
-## Model Task (`models/Post.js`)
-In the model task, students must complete the `postSchema` definition for MongoDB using Mongoose. Define the post fields (`title`, `content`, `author`) with suitable validation rules (for example: `String`, `required: true`, and `trim: true`). Keep `timestamps: true` enabled so each document gets `createdAt` and `updatedAt` automatically. When this model is complete, the API routes can use it for create/read/update/delete operations and validation errors will be returned correctly during `POST` and `PUT` requests.
-
-
-
-Implementation checklist:
-- Verify that `process.env.MONGODB_URI` exists. If missing, show a clear warning/error.
-- Call `mongoose.connect(process.env.MONGODB_URI, { dbName: 'blog' })`.
-- Log a success message when the connection is established.
-- Handle connection failures with `try/catch` and log the error message.
-- Keep server startup behind `connectToDatabase().then(...)` so routes run after the connection step.
-
-## Quick Start
-1. Install dependencies with `npm install`
-2. Create `.env` from `.env.example`
-3. Start the server with `npm run dev`
-4. Open `server.js`, `models/Post.js`, `routes/pages.js`, and `routes/posts.js`
-5. Complete the TODO comments in order
-
-## Browser Routes
-- `GET /`
-   - Purpose: Serve the home page (`index.html`).
-   - Source file: `routes/pages.js`
-   - Expected result: HTTP `200` + HTML page.
-
-- `GET /about`
-   - Purpose: Serve the about page (`about.html`).
-   - Source file: `routes/pages.js`
-   - Expected result: HTTP `200` + HTML page.
-
-- `GET /contact`
-   - Purpose: Serve the contact page (`contact.html`).
-   - Source file: `routes/pages.js`
-   - Expected result: HTTP `200` + HTML page.
-
-- `GET /blog`
-   - Purpose: Serve the blog page (`blog.html`) where API usage is demonstrated.
-   - Source file: `routes/pages.js`
-   - Expected result: HTTP `200` + HTML page.
-
-If a browser route does not match any page route, the app should return your `404.html` file.
-
-## API Routes
-- `POST /api/posts`
-   - Purpose: Create a new blog post document in MongoDB.
-   - Request body: JSON with `title`, `content`, `author`.
-   - Success: HTTP `201` + created post JSON.
-   - Common errors: HTTP `400` for validation errors.
-
-- `GET /api/posts`
-   - Purpose: Fetch all posts.
-   - Success: HTTP `200` + JSON array of posts.
-
-- `GET /api/posts/:id`
-   - Purpose: Fetch one post by MongoDB ObjectId.
-   - Success: HTTP `200` + post JSON.
-   - Common errors:
-      - HTTP `400` when `:id` is not a valid ObjectId format.
-      - HTTP `404` when no post exists with that id.
-
-- `PUT /api/posts/:id`
-   - Purpose: Replace/update one post by id.
-   - Request body: full post fields (`title`, `content`, `author`).
-   - Success: HTTP `200` + updated post JSON.
-   - Common errors:
-      - HTTP `400` invalid id or validation error.
-      - HTTP `404` post not found.
-
-- `DELETE /api/posts/:id`
-   - Purpose: Remove one post by id.
-   - Success: HTTP `200` + success message JSON.
-   - Common errors:
-      - HTTP `400` invalid id.
-      - HTTP `404` post not found.
-
-Tip for testing: Start with `POST`, then copy the returned `_id` and use it in `GET /:id`, `PUT /:id`, and `DELETE /:id`.
-
-## Suggested Test Body
-Use Postman to test all API routes after implementing the TODOs.
-
-Recommended order in Postman:
-1. `POST /api/posts` (create)
-2. `GET /api/posts` (list)
-3. `GET /api/posts/:id` (single)
-4. `PUT /api/posts/:id` (update)
-5. `DELETE /api/posts/:id` (remove)
-
-Save the `_id` returned by `POST` and reuse it in `GET/PUT/DELETE` requests.
-
-### Create Post (`POST /api/posts`)
-```json
-{
-   "title": "My First Blog Post",
-   "content": "This API stores blog posts in MongoDB.",
-   "author": "Student"
-}
+```text
+WS06_React/
+├─ README.md
+├─ requirements.md
+├─ docs/
+│  ├─ week-overview.md
+│  ├─ assignment.md
+│  ├─ grading-rubric.md
+│  └─ setup.md
+├─ backend/
+│  ├─ package.json
+│  ├─ server.js
+│  ├─ models/
+│  ├─ routes/
+│  └─ public/
+├─ frontend/
+│  ├─ starter/
+│  │  ├─ package.json
+│  │  ├─ src/
+│  │  └─ public/
+│  └─ solution/
+│     ├─ package.json
+│     ├─ src/
+│     └─ public/
+├─ exercises/
+│  ├─ 01_components/
+│  ├─ 02_props_state/
+│  ├─ 03_effects_and_fetch/
+│  ├─ 04_forms/
+│  ├─ 05_routing/
+│  └─ 06_api_integration/
+├─ shared/
+│  ├─ postman/
+│  ├─ seed/
+│  └─ examples/
+└─ archive/
+   └─ rest-api-week/
 ```
 
-### Update Post (`PUT /api/posts/:id`)
-```json
-{
-   "title": "My First Blog Post (Updated)",
-   "content": "Updated content from Postman test.",
-   "author": "Student"
-}
-```
+## Concrete Mapping from Current Folders
 
-### Invalid Body Example (expect `400`)
-```json
-{
-   "title": "",
-   "content": "",
-   "author": ""
-}
-```
+- `starter/` → `backend/`
+  - Use as the baseline backend for React integration.
+- `Solution/` → `archive/rest-api-week/solution-backend/`
+  - Keep as teacher reference from REST week.
+- `tuntiharjoitukset/` → `archive/rest-api-week/tuntiharjoitukset/`
+  - Preserve exercise history, do not mix with new React flow.
+- Current root docs:
+  - `requirements.md` → keep at root for continuity OR copy to `docs/assignment.md`.
+
+## Suggested Migration Order
+
+1. Create new top-level folders (`docs`, `frontend`, `exercises`, `shared`, `archive`).
+2. Move current `starter/` into `backend/`.
+3. Move `Solution/` and `tuntiharjoitukset/` under `archive/rest-api-week/`.
+4. Scaffold `frontend/starter` and `frontend/solution` React apps.
+5. Add weekly React tasks under `exercises/`.
+6. Update docs in `docs/` and keep this root README as navigation.
+
+## Teaching Flow (WS06)
+
+- Keep backend API contract unchanged (`/api/posts`).
+- Teach React in increments:
+  1. Components and JSX
+  2. Props and state
+  3. `useEffect` + fetching data
+  4. Controlled forms
+  5. Client routing
+  6. Full CRUD integration with backend
+
+## Minimal Run Conventions
+
+- Backend: run inside `backend/`.
+- Frontend starter: run inside `frontend/starter/`.
+- Frontend solution: run inside `frontend/solution/`.
+
+Keep student work in starter folders only; solution folders are teacher/reference material.
