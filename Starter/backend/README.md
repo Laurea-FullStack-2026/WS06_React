@@ -21,23 +21,27 @@ Default API base URL:
 
 ## Files You Need To Complete
 
-- server.js
+- server.js — **connectToDatabase function** (see the TODO comment in the file)
 - models/Post.js
 - routes/posts.js
 
 ## What To Implement
 
-### 1) Database connection in server.js
+### 1) connectToDatabase function in server.js
 
-Implement connectToDatabase so that:
-- MONGODB_URI is checked first
-- mongoose.connect is called with dbName blog
-- success and error messages are logged clearly
+A TODO comment at the top of server.js describes exactly what this function should do:
 
-Also make sure:
-- express.json middleware is enabled
-- posts router is mounted at /api/posts
-- 404 and 500 handlers return JSON responses
+```
+✓ Check if process.env.MONGODB_URI exists
+  - If missing, log a warning and return early
+✓ Use try-catch to safely call mongoose.connect()
+✓ Pass options: { dbName: 'blog' }
+✓ Log "Connected to MongoDB" on success
+✓ Log "MongoDB connection error: <error.message>" on failure
+✓ Make it async (return a Promise)
+```
+
+**Hint:** Check the solution file at `solution/backend/server.js` to see a working example, or review WS05 Server.js for similar patterns.
 
 ### 2) Post model in models/Post.js
 
